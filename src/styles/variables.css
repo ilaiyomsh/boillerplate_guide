@@ -1,21 +1,80 @@
 :root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --success-color: #28a745;
-  --danger-color: #dc3545;
-  --warning-color: #ffc107;
-  --info-color: #17a2b8;
-  --light-color: #f8f9fa;
-  --dark-color: #343a40;
+  /* Vibe Design System Colors - Official Monday.com */
+  --primary-color: #0073ea; /* Vibe Primary Blue */
+  --primary-hover-color: #0060b9; /* Vibe Primary Hover */
+  --primary-selected-color: #cce5ff; /* Vibe Primary Selected */
+  --primary-highlighted-color: #f0f7ff; /* Vibe Primary Highlighted */
+  --primary-surface-color: #eceff8; /* Vibe Primary Surface */
+  
+  /* Vibe Text Colors */
+  --primary-text-color: #323338; /* Vibe Primary Text */
+  --secondary-text-color: #676879; /* Vibe Secondary Text */
+  --text-color-on-inverted: #ffffff; /* Vibe Text on Inverted */
+  --text-color-on-primary: #ffffff; /* Vibe Text on Primary */
+  --disabled-text-color: rgba(50, 51, 56, 0.38); /* Vibe Disabled Text */
+  
+  /* Vibe Background Colors */
+  --primary-background-color: #ffffff; /* Vibe Primary Background */
+  --inverted-color-background: #323338; /* Vibe Inverted Background */
+  --fixed-light-color: #ffffff; /* Vibe Fixed Light */
+  --fixed-dark-color: #323338; /* Vibe Fixed Dark */
+  
+  /* Additional Monday.com Colors */
+  --success-color: #00ca72; /* Monday Green */
+  --danger-color: #e2445c; /* Monday Red */
+  --warning-color: #fdab3d; /* Monday Orange */
+  --info-color: #a25ddc; /* Monday Purple */
+  
+  /* Legacy Support - Mapped to Vibe Colors */
+  --background-color: var(--primary-background-color);
+  --text-primary: var(--primary-text-color);
+  --text-secondary: var(--secondary-text-color);
+  --surface-color: var(--primary-background-color);
+  --light-color: var(--primary-highlighted-color);
+  --dark-color: var(--fixed-dark-color);
+  --hover-color: var(--primary-selected-color);
+  --border-color: #d0d4e4;
+  --code-background: var(--primary-surface-color);
 
-  --background-color: #ffffff;
-  --text-color: #212529;
-  --code-background: #f1f3f5;
-  --border-color: #dee2e6;
+  /* Monday.com Spacing & Layout */
+  --border-radius: 8px; /* Monday rounded corners */
+  --border-radius-small: 4px;
+  --border-radius-large: 16px;
+  
+  /* Monday.com Shadows */
+  --box-shadow: 0px 6px 20px rgba(50, 51, 56, 0.08); /* Monday shadow */
+  --box-shadow-hover: 0px 8px 24px rgba(50, 51, 56, 0.12);
+  --box-shadow-small: 0px 2px 8px rgba(50, 51, 56, 0.06);
+  --shadow-sm: 0px 2px 8px rgba(50, 51, 56, 0.06);
+  --shadow-md: 0px 6px 20px rgba(50, 51, 56, 0.08);
+  --shadow-lg: 0px 8px 24px rgba(50, 51, 56, 0.12);
 
-  --border-radius: 0.5rem;
-  --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Monday.com Typography */
+  --font-family-sans-serif: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-monospace: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+  
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  
+  /* Spacing Scale */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
 }

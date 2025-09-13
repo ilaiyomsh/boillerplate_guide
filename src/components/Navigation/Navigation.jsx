@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styles from './Navigation.module.css';
-import { useProgress } from '../../context/ProgressContext';
-import ProgressBar from '../ProgressBar/ProgressBar';
 
 const Navigation = () => {
-  const { markAsVisited } = useProgress();
   const location = useLocation();
   const [expandedChapters, setExpandedChapters] = useState(new Set());
 
   useEffect(() => {
-    // For HashRouter, use location.pathname (React Router handles this correctly)
-    const currentPath = location.pathname;
-    markAsVisited(currentPath);
-    
     // Auto-expand current chapter
-    const chapterMatch = currentPath.match(/\/chapter(\d+)/);
+    const chapterMatch = location.pathname.match(/\/chapter(\d+)/);
     if (chapterMatch) {
       const chapterNum = parseInt(chapterMatch[1]);
       setExpandedChapters(prev => {
@@ -25,7 +18,7 @@ const Navigation = () => {
         return new Set([...prev, chapterNum]);
       });
     }
-  }, [location.pathname, markAsVisited]);
+  }, [location.pathname]);
 
   const toggleChapter = (chapterNum) => {
     setExpandedChapters(prev => {
@@ -53,8 +46,7 @@ const Navigation = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.header}>
-        <h2>המדריך האינטראקטיבי</h2>
-        <ProgressBar />
+        <h2>מדריך Monday.com האינטראקטיבי</h2>
       </div>
 
       <div className={styles.navContent}>

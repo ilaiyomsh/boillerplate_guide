@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './GuideSection.module.css';
-import { useProgress } from '../../context/ProgressContext';
 
 const GuideSection = ({ 
   title, 
@@ -13,13 +12,6 @@ const GuideSection = ({
   chapterNumber,
   sectionNumber 
 }) => {
-  const { markAsCompleted } = useProgress();
-  const location = useLocation();
-
-  const handleMarkComplete = () => {
-    const currentPath = location.pathname;
-    markAsCompleted(currentPath);
-  };
 
   return (
     <div className={styles.section}>
@@ -37,13 +29,6 @@ const GuideSection = ({
       </main>
 
       <footer className={styles.footer}>
-        <button 
-          onClick={handleMarkComplete}
-          className={styles.completeButton}
-        >
-          ✓ סמן כהושלם
-        </button>
-
         <div className={styles.navigation}>
           {prevPath && (
             <Link to={prevPath} className={styles.navButton}>

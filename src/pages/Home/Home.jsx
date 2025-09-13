@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
-import { useProgress } from '../../context/ProgressContext';
 
 const Home = () => {
-  const { progress, visited, completed } = useProgress();
 
   const chapters = [
     { num: 1, title: "כותרת הפרק הראשון", description: "מבוא ויסודות בסיסיים" },
@@ -20,30 +18,10 @@ const Home = () => {
   return (
     <div className={styles.home}>
       <header className={styles.hero}>
-        <h1 className={styles.title}>ברוכים הבאים למדריך האינטראקטיבי</h1>
+        <h1 className={styles.title}>ברוכים הבאים למדריך Monday.com האינטראקטיבי</h1>
         <p className={styles.subtitle}>
-          מדריך מקיף ואינטראקטיבי שילמד אתכם את כל מה שצריך לדעת בצורה מעשית ונגישה
+          מדריך מקיף ואינטראקטיבי שילמד אתכם את כל מה שצריך לדעת על Monday.com בצורה מעשית ונגישה
         </p>
-        
-        {(visited.size > 0 || completed.size > 0) && (
-          <div className={styles.progressSummary}>
-            <h3>ההתקדמות שלכם</h3>
-            <div className={styles.statsGrid}>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>{visited.size}</span>
-                <span className={styles.statLabel}>סעיפים נצפו</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>{completed.size}</span>
-                <span className={styles.statLabel}>סעיפים הושלמו</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>{progress}%</span>
-                <span className={styles.statLabel}>השלמת המדריך</span>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
 
       <section className={styles.chaptersGrid}>
@@ -58,27 +36,6 @@ const Home = () => {
               <div className={styles.chapterNumber}>פרק {chapter.num}</div>
               <h3 className={styles.chapterTitle}>{chapter.title}</h3>
               <p className={styles.chapterDescription}>{chapter.description}</p>
-              <div className={styles.chapterProgress}>
-                {/* Calculate progress for this chapter */}
-                {(() => {
-                  const chapterSections = [
-                    `/chapter${chapter.num}`,
-                    `/chapter${chapter.num}/section1`,
-                    `/chapter${chapter.num}/section2`,
-                    `/chapter${chapter.num}/section3`,
-                    `/chapter${chapter.num}/section4`,
-                  ];
-                  const completedInChapter = chapterSections.filter(path => completed.has(path)).length;
-                  const visitedInChapter = chapterSections.filter(path => visited.has(path)).length;
-                  
-                  return (
-                    <div className={styles.progressInfo}>
-                      <span>הושלמו: {completedInChapter}/5</span>
-                      <span>נצפו: {visitedInChapter}/5</span>
-                    </div>
-                  );
-                })()}
-              </div>
             </Link>
           ))}
         </div>
