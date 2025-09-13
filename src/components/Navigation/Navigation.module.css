@@ -1,0 +1,188 @@
+.nav {
+  width: 350px;
+  min-width: 350px;
+  background: var(--light-color);
+  border-left: 1px solid var(--border-color);
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 1.5rem;
+  border-bottom: 2px solid var(--primary-color);
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header h2 {
+  margin: 0 0 1rem 0;
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.navContent {
+  padding: 1rem;
+  flex: 1;
+}
+
+.navLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.homeLink {
+  background: var(--primary-color);
+  color: white;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.homeLink:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.homeLink.active {
+  background: var(--dark-color);
+}
+
+.chaptersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chapterGroup {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: white;
+  overflow: hidden;
+}
+
+.chapterHeader {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+}
+
+.chapterLink {
+  flex: 1;
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--dark-color);
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  background: none;
+  transition: all 0.2s ease;
+}
+
+.chapterLink:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.chapterLink.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.expandButton {
+  padding: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expandButton:hover {
+  background: var(--border-color);
+  color: var(--dark-color);
+}
+
+.sectionsContainer {
+  border-top: 1px solid var(--border-color);
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionLink {
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  color: var(--secondary-color);
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.sectionLink:last-child {
+  border-bottom: none;
+}
+
+.sectionLink:hover {
+  background: #f8f9fa;
+  color: var(--primary-color);
+  padding-right: 2rem;
+}
+
+.sectionLink.active {
+  background: var(--info-color);
+  color: white;
+  font-weight: 600;
+}
+
+.sectionLink.active::before {
+  content: '▶';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .nav {
+    width: 100%;
+    min-width: auto;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    max-height: 100vh;
+  }
+  
+  .header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .chapterLink,
+  .expandButton {
+    padding: 0.8rem;
+  }
+  
+  .sectionLink {
+    padding: 0.6rem 1.2rem;
+  }
+}

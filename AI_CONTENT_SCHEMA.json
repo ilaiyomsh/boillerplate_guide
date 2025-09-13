@@ -1,0 +1,192 @@
+{
+  "guide_structure": {
+    "total_chapters": 8,
+    "sections_per_chapter": 4,
+    "total_sections": 32,
+    "navigation_files": [
+      "src/components/Navigation/Navigation.jsx",
+      "src/pages/Home/Home.jsx"
+    ]
+  },
+  "file_locations": {
+    "chapter_template": "src/pages/Chapter{number}/",
+    "files_per_chapter": [
+      "ChapterIndex.jsx",
+      "Section1.jsx", 
+      "Section2.jsx",
+      "Section3.jsx",
+      "Section4.jsx"
+    ],
+    "routing_file": "src/App.js",
+    "progress_context": "src/context/ProgressContext.js"
+  },
+  "editing_targets": {
+    "chapter_titles": {
+      "file": "src/components/Navigation/Navigation.jsx",
+      "location": "lines 23-32",
+      "pattern": "{ num: {number}, title: \"{title}\" }"
+    },
+    "chapter_descriptions": {
+      "file": "src/pages/Home/Home.jsx", 
+      "location": "lines 7-16",
+      "pattern": "{ num: {number}, title: \"{title}\", description: \"{description}\" }"
+    },
+    "chapter_content": {
+      "file_pattern": "src/pages/Chapter{number}/ChapterIndex.jsx",
+      "editable_sections": [
+        {
+          "name": "title",
+          "location": "line ~7",
+          "pattern": "title=\"פרק {number}: {title}\""
+        },
+        {
+          "name": "intro_paragraph",
+          "location": "line ~15",
+          "element": "<p>"
+        },
+        {
+          "name": "learning_objectives",
+          "location": "lines ~17-22",
+          "element": "<ul><li>"
+        },
+        {
+          "name": "section_links",
+          "location": "lines ~25-44",
+          "pattern": "<h3>סעיף {chapter}.{section}: {title}</h3><p>{description}</p>"
+        }
+      ]
+    },
+    "section_content": {
+      "file_pattern": "src/pages/Chapter{chapter}/Section{section}.jsx",
+      "editable_sections": [
+        {
+          "name": "title",
+          "location": "line ~7",
+          "pattern": "title=\"סעיף {chapter}.{section}: {title}\""
+        },
+        {
+          "name": "content_body",
+          "location": "lines 15+",
+          "allowed_elements": [
+            "<p>", "<h2>", "<h3>", "<ul>", "<ol>", "<li>",
+            "<strong>", "<em>", "<code>", "<blockquote>",
+            "<table>", "<thead>", "<tbody>", "<tr>", "<th>", "<td>",
+            "<a href=\"\" target=\"_blank\" rel=\"noopener noreferrer\">"
+          ]
+        },
+        {
+          "name": "code_examples",
+          "component": "CodeExample",
+          "pattern": "<CodeExample language=\"{language}\">{code}</CodeExample>",
+          "supported_languages": [
+            "javascript", "jsx", "typescript", "tsx", "html", "css", 
+            "scss", "json", "markdown", "bash", "shell", "python", 
+            "java", "csharp", "php", "sql", "xml", "yaml"
+          ]
+        },
+        {
+          "name": "important_notes",
+          "element": "<blockquote>",
+          "pattern": "<blockquote><strong>{type}:</strong> {content}</blockquote>",
+          "note_types": ["שימו לב", "טיפ", "אזהרה", "חשוב", "לזכור"]
+        }
+      ]
+    }
+  },
+  "navigation_logic": {
+    "chapter_index": {
+      "prev_path_logic": "chapter > 1 ? `/chapter${chapter-1}/section4` : `/`",
+      "next_path_logic": "`/chapter${chapter}/section1`",
+      "prev_title_logic": "chapter > 1 ? `סעיף ${chapter-1}.4` : `בית`",
+      "next_title_logic": "`סעיף 1`"
+    },
+    "section_navigation": {
+      "section_1": {
+        "prev_path": "`/chapter${chapter}`",
+        "next_path": "`/chapter${chapter}/section2`",
+        "prev_title": "`פרק ${chapter}`",
+        "next_title": "`סעיף ${chapter}.2`"
+      },
+      "section_2_3": {
+        "prev_path": "`/chapter${chapter}/section${section-1}`",
+        "next_path": "`/chapter${chapter}/section${section+1}`",
+        "prev_title": "`סעיף ${chapter}.${section-1}`",
+        "next_title": "`סעיף ${chapter}.${section+1}`"
+      },
+      "section_4": {
+        "prev_path": "`/chapter${chapter}/section3`",
+        "next_path_logic": "chapter < 8 ? `/chapter${chapter+1}` : `/`",
+        "prev_title": "`סעיף ${chapter}.3`",
+        "next_title_logic": "chapter < 8 ? `פרק ${chapter+1}` : `בית`"
+      }
+    }
+  },
+  "adding_chapters": {
+    "steps": [
+      {
+        "step": 1,
+        "action": "create_directory",
+        "path": "src/pages/Chapter{number}/"
+      },
+      {
+        "step": 2,
+        "action": "create_files",
+        "files": ["ChapterIndex.jsx", "Section1.jsx", "Section2.jsx", "Section3.jsx", "Section4.jsx"]
+      },
+      {
+        "step": 3,
+        "action": "update_app_js",
+        "add_imports": "// Chapter {number}\nimport Chapter{number}Index from './pages/Chapter{number}/ChapterIndex';\n// ... sections",
+        "add_routes": "<Route path=\"/chapter{number}\" element={<Chapter{number}Index />} />\n// ... sections"
+      },
+      {
+        "step": 4,
+        "action": "update_progress_context",
+        "file": "src/context/ProgressContext.js",
+        "line": 8,
+        "formula": "TOTAL_SECTIONS = (total_chapters * 5) - 1"
+      },
+      {
+        "step": 5,
+        "action": "update_navigation",
+        "files": [
+          "src/components/Navigation/Navigation.jsx",
+          "src/pages/Home/Home.jsx"
+        ]
+      }
+    ]
+  },
+  "content_guidelines": {
+    "chapter_structure": {
+      "introduction": "מבוא כללי לנושא הפרק",
+      "learning_objectives": "4 נקודות מפתח שיילמדו",
+      "section_descriptions": "תיאור קצר לכל סעיף",
+      "tip_or_note": "הערה חשובה או טיפ"
+    },
+    "section_structure": {
+      "introduction": "הקדמה לנושא הסעיף",
+      "main_concepts": "הסבר המושגים העיקריים", 
+      "code_example": "דוגמה מעשית עם קוד",
+      "explanation": "הסבר הדוגמה",
+      "important_note": "הערה חשובה או טיפ",
+      "exercise": "תרגיל או משימה"
+    },
+    "writing_style": {
+      "language": "עברית",
+      "direction": "RTL",
+      "tone": "ידידותי ומקצועי",
+      "paragraph_length": "קצר ובהיר",
+      "code_comments": "בעברית"
+    }
+  },
+  "validation_checklist": {
+    "after_editing": [
+      "npm run build - פרויקט עובר build",
+      "npm start - אין שגיאות בקונסול",
+      "כל הקישורים עובדים",
+      "מעקב התקדמות עובד",
+      "עיצוב רספונסיבי תקין",
+      "תוכן בעברית ו-RTL"
+    ]
+  }
+}
