@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/boillerplate_guide/static/css/main.1671fcd3.css",
-    "main.js": "/boillerplate_guide/static/js/main.2d93e352.js",
+    "main.css": "/boillerplate_guide/static/css/main.941d508d.css",
+    "main.js": "/boillerplate_guide/static/js/main.829f922e.js",
     "static/js/453.b39baf66.chunk.js": "/boillerplate_guide/static/js/453.b39baf66.chunk.js",
     "index.html": "/boillerplate_guide/index.html",
-    "main.1671fcd3.css.map": "/boillerplate_guide/static/css/main.1671fcd3.css.map",
-    "main.2d93e352.js.map": "/boillerplate_guide/static/js/main.2d93e352.js.map",
+    "main.941d508d.css.map": "/boillerplate_guide/static/css/main.941d508d.css.map",
+    "main.829f922e.js.map": "/boillerplate_guide/static/js/main.829f922e.js.map",
     "453.b39baf66.chunk.js.map": "/boillerplate_guide/static/js/453.b39baf66.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1671fcd3.css",
-    "static/js/main.2d93e352.js"
+    "static/css/main.941d508d.css",
+    "static/js/main.829f922e.js"
   ]
 }
