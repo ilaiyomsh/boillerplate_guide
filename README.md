@@ -39,7 +39,7 @@ src/
 
 1. **שכפול הפרויקט:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ilaiyomsh/boillerplate_guide.git
    cd interactive-guide-boilerplate
    ```
 
@@ -61,7 +61,7 @@ src/
 
 ## 📝 עריכת התוכן
 
-> ראה/י גם: `docs/README.md` ו-`docs/CONTENT_TEMPLATE.md` לעריכת תוכן עם Markdown.
+> השתמשו ב-`docs/CONTENT_TEMPLATE.md` כדי ליצור את `docs/GUIDE_CONTENT.md` (תוכן המדריך בפורמט Markdown).
 
 ### שינוי כותרות הפרקים (אופציונלי)
 ברירת המחדל היא לעדכן דרך `docs/GUIDE_CONTENT.md`. ניתן גם לערוך ידנית ישירות ב־`Navigation.jsx` ו־`Home.jsx` אם מעוניינים.
