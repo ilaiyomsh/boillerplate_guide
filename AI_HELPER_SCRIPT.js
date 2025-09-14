@@ -1,85 +1,63 @@
 /**
- * AI Helper Script - מדריך אינטראקטיבי
- * סקריפט עזר לסוכן AI לניהול המדריך
+ * AI Helper Script - מדריך אינטראקטיבי (דינמי)
  */
 
-// מידע על מבנה הפרויקט
+// מידע על מבנה הפרויקט (דינמי)
 const PROJECT_STRUCTURE = {
-  totalChapters: 8,
-  sectionsPerChapter: 4,
-  
+  // נגזר מקובץ התוכן בפועל
+  totalChapters: null,
+  sectionsPerChapter: null,
+
   // קבצים לעדכון כותרות
   navigationFile: 'src/components/Navigation/Navigation.jsx',
   homeFile: 'src/pages/Home/Home.jsx',
-  
+
   // תבנית נתיבי קבצים
   chapterPath: (num) => `src/pages/Chapter${num}/`,
   chapterIndexFile: (num) => `src/pages/Chapter${num}/ChapterIndex.jsx`,
   sectionFile: (chapter, section) => `src/pages/Chapter${chapter}/Section${section}.jsx`,
-  
-  // קבצי ראוטינג ומצב
-  appFile: 'src/App.js',
-  progressContextFile: 'src/context/ProgressContext.js'
+
+  // קובץ ראוטינג
+  appFile: 'src/App.js'
 };
 
-// פונקציות עזר לחישוב ניווט
+// פונקציות עזר לחישוב ניווט (מותאם דינמית)
 const NavigationHelper = {
-  // חישוב נתיב הפרק הקודם
-  getPrevChapterPath: (chapterNum) => {
-    return chapterNum > 1 ? `/chapter${chapterNum - 1}/section4` : '/';
+  getPrevChapterPath: (chapterNum, lastSectionInPrev) => {
+    return chapterNum > 1 ? `/chapter${chapterNum - 1}/section${lastSectionInPrev || 4}` : '/';
   },
-  
-  // חישוב כותרת הפרק הקודם
-  getPrevChapterTitle: (chapterNum) => {
-    return chapterNum > 1 ? `סעיף ${chapterNum - 1}.4` : 'בית';
+  getPrevChapterTitle: (chapterNum, lastSectionInPrev) => {
+    return chapterNum > 1 ? `סעיף ${chapterNum - 1}.${lastSectionInPrev || 4}` : 'בית';
   },
-  
-  // חישוב נתיב הפרק הבא
-  getNextChapterPath: (chapterNum) => {
-    return chapterNum < PROJECT_STRUCTURE.totalChapters ? `/chapter${chapterNum + 1}` : '/';
+  getNextChapterPath: (chapterNum, totalChapters) => {
+    return chapterNum < totalChapters ? `/chapter${chapterNum + 1}` : '/';
   },
-  
-  // חישוב כותרת הפרק הבא
-  getNextChapterTitle: (chapterNum) => {
-    return chapterNum < PROJECT_STRUCTURE.totalChapters ? `פרק ${chapterNum + 1}` : 'בית';
+  getNextChapterTitle: (chapterNum, totalChapters) => {
+    return chapterNum < totalChapters ? `פרק ${chapterNum + 1}` : 'בית';
   },
-  
-  // חישוב ניווט סעיף
-  getSectionNavigation: (chapterNum, sectionNum) => {
-    const navigation = {
-      chapterNumber: chapterNum,
-      sectionNumber: sectionNum
-    };
-    
+  getSectionNavigation: (chapterNum, sectionNum, sectionsInChapter, totalChapters) => {
+    const nav = { chapterNumber: chapterNum, sectionNumber: sectionNum };
     if (sectionNum === 1) {
-      navigation.prevPath = `/chapter${chapterNum}`;
-      navigation.prevTitle = `פרק ${chapterNum}`;
+      nav.prevPath = `/chapter${chapterNum}`;
+      nav.prevTitle = `פרק ${chapterNum}`;
     } else {
-      navigation.prevPath = `/chapter${chapterNum}/section${sectionNum - 1}`;
-      navigation.prevTitle = `סעיף ${chapterNum}.${sectionNum - 1}`;
+      nav.prevPath = `/chapter${chapterNum}/section${sectionNum - 1}`;
+      nav.prevTitle = `סעיף ${chapterNum}.${sectionNum - 1}`;
     }
-    
-    if (sectionNum === 4) {
-      if (chapterNum < PROJECT_STRUCTURE.totalChapters) {
-        navigation.nextPath = `/chapter${chapterNum + 1}`;
-        navigation.nextTitle = `פרק ${chapterNum + 1}`;
-      } else {
-        navigation.nextPath = '/';
-        navigation.nextTitle = 'בית';
-      }
+    if (sectionNum === sectionsInChapter) {
+      nav.nextPath = NavigationHelper.getNextChapterPath(chapterNum, totalChapters);
+      nav.nextTitle = NavigationHelper.getNextChapterTitle(chapterNum, totalChapters);
     } else {
-      navigation.nextPath = `/chapter${chapterNum}/section${sectionNum + 1}`;
-      navigation.nextTitle = `סעיף ${chapterNum}.${sectionNum + 1}`;
+      nav.nextPath = `/chapter${chapterNum}/section${sectionNum + 1}`;
+      nav.nextTitle = `סעיף ${chapterNum}.${sectionNum + 1}`;
     }
-    
-    return navigation;
+    return nav;
   }
 };
 
-// תבניות קוד לסוכן AI
+// תבניות קוד לסוכן AI (ללא CodeExample)
 const CodeTemplates = {
-  // תבנית ChapterIndex
-  chapterIndex: (chapterNum, title, intro, objectives, sectionTitles) => `import React from 'react';
+  chapterIndex: (chapterNum, title, intro, objectives, sectionTitles, lastSectionInPrev, totalChapters) => `import React from 'react';
 import { Link } from 'react-router-dom';
 import GuideSection from '../../components/GuideSection/GuideSection';
 
@@ -89,8 +67,8 @@ const ChapterIndex = () => {
       title="פרק ${chapterNum}: ${title}"
       nextPath="/chapter${chapterNum}/section1"
       nextTitle="סעיף 1"
-      prevPath="${NavigationHelper.getPrevChapterPath(chapterNum)}"
-      prevTitle="${NavigationHelper.getPrevChapterTitle(chapterNum)}"
+      prevPath="${NavigationHelper.getPrevChapterPath(chapterNum, lastSectionInPrev)}"
+      prevTitle="${NavigationHelper.getPrevChapterTitle(chapterNum, lastSectionInPrev)}"
       chapterNumber={${chapterNum}}
     >
       <p>
@@ -104,29 +82,22 @@ const ChapterIndex = () => {
 
       <h2>סעיפי הפרק</h2>
       <div className="chapter-sections">
-        ${sectionTitles.map((sectionTitle, index) => `
-        <Link to="/chapter${chapterNum}/section${index + 1}" className="section-link">
-          <h3>סעיף ${chapterNum}.${index + 1}: ${sectionTitle.title}</h3>
-          <p>${sectionTitle.description}</p>
+        ${sectionTitles.map((s, i) => `
+        <Link to="/chapter${chapterNum}/section${i + 1}" className="section-link">
+          <h3>סעיף ${chapterNum}.${i + 1}: ${s.title}</h3>
+          <p>${s.description || ''}</p>
         </Link>`).join('')}
       </div>
-
-      <blockquote>
-        <strong>טיפ:</strong> מומלץ לעבור על הסעיפים בסדר, כיון שכל סעיף נשען על הידע מהסעיפים הקודמים.
-      </blockquote>
     </GuideSection>
   );
 };
 
 export default ChapterIndex;`,
 
-  // תבנית Section
-  section: (chapterNum, sectionNum, title, content) => {
-    const nav = NavigationHelper.getSectionNavigation(chapterNum, sectionNum);
-    
+  section: (chapterNum, sectionNum, title, content, sectionsInChapter, totalChapters) => {
+    const nav = NavigationHelper.getSectionNavigation(chapterNum, sectionNum, sectionsInChapter, totalChapters);
     return `import React from 'react';
 import GuideSection from '../../components/GuideSection/GuideSection';
-import CodeExample from '../../components/CodeExample/CodeExample';
 
 const Section${sectionNum} = () => {
   return (
@@ -147,12 +118,6 @@ const Section${sectionNum} = () => {
 export default Section${sectionNum};`;
   },
 
-  // תבנית דוגמת קוד
-  codeExample: (language, code) => `      <CodeExample language="${language}">
-{${"`"}${code}${"`"}}
-      </CodeExample>`,
-
-  // תבנית הערה חשובה
   note: (type, content) => `      <blockquote>
         <strong>${type}:</strong> ${content}
       </blockquote>`
@@ -160,92 +125,28 @@ export default Section${sectionNum};`;
 
 // פונקציות עדכון
 const UpdateFunctions = {
-  // עדכון כותרות בניווט
   updateNavigationTitles: (chapters) => {
-    const navigationArray = chapters.map(chapter => 
-      `  { num: ${chapter.num}, title: "${chapter.title}" }`
-    ).join(',\n');
-    
+    const navigationArray = chapters.map(ch => `  { num: ${ch.num}, title: "${ch.title}" }`).join(',\n');
     return `const chapters = [\n${navigationArray}\n];`;
   },
-  
-  // עדכון כותרות בדף הבית
   updateHomeTitles: (chapters) => {
-    const homeArray = chapters.map(chapter => 
-      `  { num: ${chapter.num}, title: "${chapter.title}", description: "${chapter.description}" }`
-    ).join(',\n');
-    
+    const homeArray = chapters.map(ch => `  { num: ${ch.num}, title: "${ch.title}", description: "${ch.description || ''}" }`).join(',\n');
     return `const chapters = [\n${homeArray}\n];`;
-  },
-  
-  // חישוב סך הסעיפים
-  calculateTotalSections: (totalChapters) => {
-    // כל פרק: 1 עמוד פרק + 4 סעיפים = 5
-    // פחות דף הבית = -1
-    return (totalChapters * 5) - 1;
   }
 };
-
-// רשימת שפות נתמכות לקוד
-const SUPPORTED_LANGUAGES = [
-  'javascript', 'jsx', 'typescript', 'tsx', 
-  'html', 'css', 'scss', 'json', 'markdown',
-  'bash', 'shell', 'python', 'java', 'csharp',
-  'php', 'sql', 'xml', 'yaml', 'dockerfile'
-];
 
 // אלמנטי HTML מותרים
 const ALLOWED_HTML_ELEMENTS = [
   'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-  'ul', 'ol', 'li', 'strong', 'em', 'code',
+  'ul', 'ol', 'li', 'strong', 'em',
   'table', 'thead', 'tbody', 'tr', 'th', 'td',
   'blockquote', 'a[href,target,rel]'
 ];
 
-// סוגי הערות
-const NOTE_TYPES = [
-  'שימו לב', 'טיפ', 'אזהרה', 'חשוב', 'לזכור',
-  'דוגמה', 'תרגיל', 'סיכום', 'המשך'
-];
-
-// ייצוא לשימוש
 module.exports = {
   PROJECT_STRUCTURE,
   NavigationHelper,
   CodeTemplates,
   UpdateFunctions,
-  SUPPORTED_LANGUAGES,
-  ALLOWED_HTML_ELEMENTS,
-  NOTE_TYPES
+  ALLOWED_HTML_ELEMENTS
 };
-
-// דוגמאות שימוש לסוכן AI:
-
-/* 
-// 1. יצירת סעיף חדש
-const newSectionContent = CodeTemplates.section(
-  1, // מספר פרק
-  1, // מספר סעיף
-  "כותרת הסעיף", // כותרת
-  `<p>תוכן הסעיף כאן...</p>
-  
-  ${CodeTemplates.codeExample('javascript', 'console.log("שלום עולם!");')}
-  
-  ${CodeTemplates.note('שימו לב', 'זוהי הערה חשובה')}`
-);
-
-// 2. חישוב ניווט לסעיף
-const navigation = NavigationHelper.getSectionNavigation(2, 3);
-// תוצאה: { prevPath: '/chapter2/section2', nextPath: '/chapter2/section4', ... }
-
-// 3. עדכון כותרות ניווט
-const newChapters = [
-  { num: 1, title: "כותרת חדשה לפרק 1" },
-  { num: 2, title: "כותרת חדשה לפרק 2" }
-];
-const navigationCode = UpdateFunctions.updateNavigationTitles(newChapters);
-
-// 4. חישוב סך הסעיפים עבור 10 פרקים
-const totalSections = UpdateFunctions.calculateTotalSections(10);
-// תוצאה: 49
-*/

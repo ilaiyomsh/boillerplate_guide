@@ -1,6 +1,5 @@
 import React from 'react';
 import GuideSection from '../../components/GuideSection/GuideSection';
-import CodeExample from '../../components/CodeExample/CodeExample';
 
 const Section1 = () => {
   return (
@@ -27,33 +26,18 @@ const Section1 = () => {
         <li><strong>מושג שלישי:</strong> הסבר קצר על המושג</li>
       </ul>
 
-      <h2>דוגמת קוד</h2>
-      <p>הנה דוגמה להמחשה:</p>
-
-      <CodeExample language="javascript">
-{`// דוגמה לפרק 2, סעיף 1
-function exampleFunction() {
-  console.log('זוהי דוגמה לפרק 2, סעיף 1');
-  return 'תוצאה מהדוגמה';
-}
-
-// שימוש בפונקציה
-const result = exampleFunction();
-console.log(result);`}
-      </CodeExample>
-
-      <h2>הסבר הקוד</h2>
+      <h2>המחשה</h2>
       <p>
-        בדוגמה לעיל אנחנו רואים דוגמה בסיסית שמתאימה לסעיף זה.
+        כאן ניתן לשלב תמונה או תרשים שממחישים את הרעיון המרכזי של הסעיף.
       </p>
 
       <blockquote>
         <strong>שימו לב:</strong> זוהי דוגמה להמחשה. התאימו את התוכן לצרכים שלכם.
       </blockquote>
 
-      <h2>תרגיל</h2>
+      <h2>תרגול</h2>
       <p>
-        נסו ליישם את מה שלמדתם בסעיף זה.
+        חשבו על שימושים מעשיים לרעיון שהוצג ונסו לתאר אותם במילים.
       </p>
     </GuideSection>
   );

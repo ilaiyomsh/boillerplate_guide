@@ -1,68 +1,68 @@
 # מדריך מהיר לסוכן AI - עריכת מדריך אינטראקטיבי
 
-## קבצים חשובים לסוכן AI
-- `AI_EDITING_INSTRUCTIONS.md` - הוראות מפורטות לעריכה
-- `AI_CONTENT_SCHEMA.json` - מבנה נתונים ותבניות
-- `AI_HELPER_SCRIPT.js` - פונקציות עזר וקוד לדוגמה
+## עקרון על
+- מקור האמת לתוכן: `docs/GUIDE_CONTENT.md` (נבנה לפי `docs/CONTENT_TEMPLATE.md`).
+- מספר הפרקים והסעיפים נקבעים מהמסמך — יש ליצור/לעדכן/למחוק קבצים בהתאם.
+- אין דוגמאות קוד. תמונות נטענות מ-`public/images/` ומוצגות כרכיב `ImageFigure`.
 
-## עריכה מהירה
+## קבצים חשובים
+- `AI_EDITING_INSTRUCTIONS.md` — הוראות מלאות
+- `AI_CONTENT_SCHEMA.json` — סכמת נתונים דינמית
+- `AI_HELPER_SCRIPT.js` — פונקציות עזר (יצירה/ראוטינג/ניווט)
 
-### שינוי כותרת פרק
-```javascript
-// src/components/Navigation/Navigation.jsx - שורות 23-32
-{ num: 1, title: "הכותרת החדשה" }
+## זרימה מהירה
+1) קרא/י את `docs/GUIDE_CONTENT.md` והפק/י:
+   - רשימת פרקים ([NAVIGATION])
+   - פרקים/סעיפים בפועל ([CHAPTER N] + [SECTION N.M])
+   - רשומות תמונה לכל סעיף (שם קובץ/מלל/רוחב)
+2) עדכן/י קוד:
+   - צור/מחק תיקיות `src/pages/ChapterN/`
+   - צור/עדכן `ChapterIndex.jsx` ו-`SectionM.jsx` לכל סעיף קיים
+   - עדכן/י `src/App.js` — imports + routes רק עבור מה שקיים
+   - עדכן/י `src/components/Navigation/Navigation.jsx` ו-`src/pages/Home/Home.jsx` לפי [NAVIGATION]
+3) תמונות:
+   - ודא/י שקבצים קיימים תחת `public/images/`
+   - הוסף/הוסיפי לרכיבי הסעיפים שימוש ב-`ImageFigure` עם `src="/images/<file>"` ו-caption
+4) בדיקות:
+   - `npm run build`
+   - `npm start` → ניווט תקין, ללא שגיאות
 
-// src/pages/Home/Home.jsx - שורות 7-16  
-{ num: 1, title: "הכותרת החדשה", description: "התיאור החדש" }
+## דוגמאות מינימליות
+- עדכון כותרת פרק ב-`Navigation.jsx`:
+```js
+const chapters = [
+  { num: 1, title: "הכותרת החדשה" },
+  // ... דינמי לפי המסמך
+];
 ```
-
-### עריכת תוכן סעיף
+- יצירת סעיף:
 ```jsx
-// src/pages/Chapter1/Section1.jsx
-<GuideSection title="סעיף 1.1: כותרת חדשה">
-  <p>התוכן החדש...</p>
-  
-  <CodeExample language="javascript">
-  {`console.log("דוגמה");`}
-  </CodeExample>
-  
-  <blockquote>
-    <strong>שימו לב:</strong> הערה חשובה
-  </blockquote>
-</GuideSection>
+import React from 'react';
+import GuideSection from '../../components/GuideSection/GuideSection';
+
+const Section2 = () => {
+  return (
+    <GuideSection
+      title="סעיף 1.2: כותרת הסעיף"
+      nextPath="/chapter1/section3"
+      nextTitle="סעיף 1.3"
+      prevPath="/chapter1/section1"
+      prevTitle="סעיף 1.1"
+      chapterNumber={1}
+      sectionNumber={2}
+    >
+      <p>תוכן הסעיף…</p>
+    </GuideSection>
+  );
+};
+
+export default Section2;
 ```
 
-### הוספת פרק חדש
-1. צור תיקייה: `src/pages/Chapter9/`
-2. צור 5 קבצים: `ChapterIndex.jsx`, `Section1-4.jsx`
-3. עדכן `src/App.js` - הוסף imports ו-routes
-4. עדכן `src/context/ProgressContext.js` - שורה 8: `TOTAL_SECTIONS = 41`
-5. עדכן Navigation ו-Home - הוסף פרק לarray
+## חישוב ניווט (עקרונות)
+- סעיף ראשון: prev → עמוד הפרק, next → הסעיף הבא
+- סעיפים אמצעיים: prev/next לסעיף הקודם/הבא
+- סעיף אחרון: next → פרק הבא או `/` אם זה הפרק האחרון
+- פרק: prev → סעיף אחרון של הפרק הקודם או `/`, next → סעיף 1 של הפרק
 
-### שפות קוד נתמכות
-`javascript`, `jsx`, `html`, `css`, `json`, `bash`, `python`, `java`, `csharp`, `php`, `sql`
-
-### אלמנטי HTML מותרים
-`<p>`, `<h2>`, `<h3>`, `<ul>`, `<ol>`, `<li>`, `<strong>`, `<em>`, `<code>`, `<blockquote>`, `<table>`
-
-### בדיקת תקינות
-```bash
-npm run build  # בדיקת build
-npm start      # בדיקת שגיאות
-```
-
-## חישוב ניווט אוטומטי
-
-### עמוד פרק
-- **prevPath:** פרק > 1 ? `/chapter${פרק-1}/section4` : `/`  
-- **nextPath:** `/chapter${פרק}/section1`
-
-### סעיף ראשון
-- **prevPath:** `/chapter${פרק}`
-- **nextPath:** `/chapter${פרק}/section2`
-
-### סעיף אחרון  
-- **prevPath:** `/chapter${פרק}/section3`
-- **nextPath:** פרק < 8 ? `/chapter${פרק+1}` : `/`
-
-זכור: כל שינוי כותרת דורש עדכון ב-3 מקומות!
+זכור/זכרי: תמיד להתאים את המבנה לקובץ התוכן ולמחוק קבצים לא רלוונטיים. אין להשתמש ברכיבי קוד. התמקד/י בטקסט, תמונות והערות.

@@ -4,10 +4,7 @@
 
 ## 🚀 תכונות
 
-- **8 פרקים** עם 4 סעיפים לכל פרק (סה"כ 32 סעיפים + דף בית)
 - **ניווט אינטראקטיבי** עם פרקים מתקפלים
-- **מעקב התקדמות** - מעקב אחר סעיפים שנצפו והושלמו
-- **רכיב קוד אינטראקטיבי** עם הדגשת תחביר וכפתור העתקה
 - **עיצוב רספונסיבי** לכל הגדלי המסכים
 - **תמיכה בעברית** (RTL)
 - **אופטימיזציה ל-GitHub Pages** עם HashRouter
@@ -18,19 +15,16 @@
 src/
 ├── components/
 │   ├── GuideSection/          # רכיב בסיסי לכל סעיף
-│   ├── Navigation/           # תפריט ניווט
-│   ├── CodeExample/          # הצגת קוד עם הדגשה
-│   ├── ProgressBar/          # סרגל התקדמות
-│   └── InteractiveDemo/      # רכיבים אינטראקטיביים
+│   ├── Navigation/            # תפריט ניווט
+│   ├── InteractiveDemo/       # רכיבים אינטראקטיביים (אופציונלי)
+│   └── ...
 ├── pages/
-│   ├── Home/                 # דף הבית
-│   └── Chapter[1-8]/         # 8 פרקים עם ChapterIndex ו-4 Section
-├── context/
-│   └── ProgressContext.js    # ניהול מצב התקדמות גלובלי
+│   ├── Home/                  # דף הבית
+│   └── Chapter[1..N]/         # פרקים דינמיים, נבנים לפי GUIDE_CONTENT (ChapterIndex + Section[1..M])
 └── styles/
-    ├── variables.css         # משתני CSS
-    ├── globals.css           # סגנונות גלובליים
-    └── utilities.css         # כלי עזר CSS
+    ├── variables.css          # משתני CSS
+    ├── globals.css            # סגנונות גלובליים
+    └── utilities.css          # כלי עזר CSS
 ```
 
 ## 🛠️ התקנה ופיתוח
@@ -67,26 +61,10 @@ src/
 
 ## 📝 עריכת התוכן
 
-> **לסוכני AI:** ראו את הקבצים `AI_EDITING_INSTRUCTIONS.md`, `AI_CONTENT_SCHEMA.json` ו-`AI_HELPER_SCRIPT.js` להוראות מפורטות לעריכה אוטומטית.
+> ראה/י גם: `docs/README.md` ו-`docs/CONTENT_TEMPLATE.md` לעריכת תוכן עם Markdown.
 
-### שינוי כותרות הפרקים
-
-1. **בקובץ `src/components/Navigation/Navigation.jsx`:**
-   ```javascript
-   const chapters = [
-     { num: 1, title: "כותרת פרק 1 החדשה" },
-     { num: 2, title: "כותרת פרק 2 החדשה" },
-     // ...
-   ];
-   ```
-
-2. **בקובץ `src/pages/Home/Home.jsx`:**
-   ```javascript
-   const chapters = [
-     { num: 1, title: "כותרת הפרק הראשון", description: "תיאור חדש" },
-     // ...
-   ];
-   ```
+### שינוי כותרות הפרקים (אופציונלי)
+ברירת המחדל היא לעדכן דרך `docs/GUIDE_CONTENT.md`. ניתן גם לערוך ידנית ישירות ב־`Navigation.jsx` ו־`Home.jsx` אם מעוניינים.
 
 ### עריכת תוכן הפרקים
 
@@ -95,12 +73,11 @@ src/
 - **`ChapterIndex.jsx`** - עמוד הפרק הראשי עם רשימת הסעיפים
 - **`Section1.jsx` - `Section4.jsx`** - 4 הסעיפים של הפרק
 
-#### דוגמה לעריכת סעיף:
+#### דוגמה לעריכת סעיף (ללא קוד):
 
 ```jsx
 import React from 'react';
 import GuideSection from '../../components/GuideSection/GuideSection';
-import CodeExample from '../../components/CodeExample/CodeExample';
 
 const Section1 = () => {
   return (
@@ -118,11 +95,6 @@ const Section1 = () => {
       <h2>כותרת משנה</h2>
       <p>עוד תוכן...</p>
 
-      <CodeExample language="javascript">
-{`// דוגמת קוד
-console.log("שלום עולם!");`}
-      </CodeExample>
-
       <blockquote>
         <strong>שימו לב:</strong> הערה חשובה
       </blockquote>
@@ -133,31 +105,56 @@ console.log("שלום עולם!");`}
 export default Section1;
 ```
 
-### הוספת רכיבים אינטראקטיביים
+### הוספת תמונות למדריך
 
-ניתן ליצור רכיבים אינטראקטיביים בתיקייה `src/components/InteractiveDemo/`:
+- שים/י את קבצי התמונות בתיקייה `public/images/`.
+- בתוכן (Markdown):
+  - שימוש רגיל: `![כיתוב לתמונה](/images/example.png)`
+  - שימוש מתקדם: `[image]: /images/example.png | כיתוב לתמונה | 720px`
+- בצד ה-UI נעשה שימוש ברכיב רספונסיבי עם כיתוב (ImageFigure) בעת היישום.
 
-```jsx
-import React, { useState } from 'react';
-import styles from './MyDemo.module.css';
+## 📘 יצירת מדריך חדש – צעד אחר צעד
 
-const MyDemo = () => {
-  const [value, setValue] = useState('');
+1) העתקת התבנית למסמך התוכן
 
-  return (
-    <div className={styles.demo}>
-      <input 
-        value={value} 
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="הזינו טקסט..."
-      />
-      <p>הטקסט שלכם: {value}</p>
-    </div>
-  );
-};
-
-export default MyDemo;
+```bash
+cp docs/CONTENT_TEMPLATE.md docs/GUIDE_CONTENT.md
 ```
+
+2) מילוי המסמך `docs/GUIDE_CONTENT.md`
+- מלא/י את הכותרות ב-[META] וב-[NAVIGATION].
+- לכל פרק/סעיף מלא/י את הטקסטים (אין צורך בדוגמאות קוד).
+- תמונות: שים/י קבצים תחת `public/images/` והשתמש/י באחד מהפורמטים:
+  - Markdown רגיל: `![כיתוב](/images/my-image.png)`
+  - או שורה מובנית: `שם: my-image.png | מלל: כיתוב לתמונה | רוחב: 720px`
+
+3) הפעלת הסוכן לעדכון הקוד
+- הפעלה מהצ'אט: "עדכן תוכן מהקובץ docs/GUIDE_CONTENT.md".
+- או מהטרמינל (טריגר קצר):
+
+```bash
+npm run apply-content
+```
+
+הסוכן יבצע עבורכם:
+- ייצור/עדכון/מחיקה של תיקיות וקבצים תחת `src/pages/ChapterX/` לפי מספר הפרקים והסעיפים במסמך.
+- עדכון `src/App.js` (imports + routes) בהתאמה למבנה בפועל.
+- עדכון הניווט והעמוד הראשי: `src/components/Navigation/Navigation.jsx`, `src/pages/Home/Home.jsx`.
+- הוספת תמונות לכל סעיף כרכיב `ImageFigure` עם הנתיב `/images/<file>`.
+
+4) בדיקה מקומית
+
+```bash
+npm start
+```
+בדקו ניווט בין פרקים/סעיפים והתצוגה של תמונות/הערות.
+
+5) עדכונים חוזרים
+- ערכו שוב את `docs/GUIDE_CONTENT.md` לפי הצורך והריצו את שלב 3.
+
+הערות חשובות
+- מספר הפרקים והסעיפים דינמי ונקבע מהמסמך – קבצים מיותרים יימחקו אוטומטית.
+- אין תמיכה בדוגמאות קוד; התוכן מורכב מטקסט, תמונות והערות.
 
 ## 🌐 פריסה ל-GitHub Pages
 
@@ -194,21 +191,6 @@ npm run deploy
 
 האתר יהיה זמין תוך מספר דקות בכתובת: `https://YOUR_USERNAME.github.io/YOUR_REPOSITORY_NAME`
 
-## 📱 הטמעה ב-Monday.com
-
-1. **פתחו את Monday.com**
-2. **הוסיפו Widget חדש:**
-   - לחצו על **+ Add Widget**
-   - בחרו **Embed Everything**
-
-3. **הזינו את כתובת האתר:**
-   - הדביקו את כתובת האתר מGitHub Pages
-   - לחצו **Add to Board**
-
-4. **התאמת גודל:**
-   - גררו את פינות הwidget להתאמת הגודל
-   - מומלץ: רוחב מלא, גובה 600-800px
-
 ## 🎨 התאמה אישית
 
 ### שינוי צבעים
@@ -217,9 +199,8 @@ npm run deploy
 
 ```css
 :root {
-  --primary-color: #007bff;    /* צבע ראשי */
-  --secondary-color: #6c757d;  /* צבע משני */
-  --success-color: #28a745;    /* צבע הצלחה */
+  --primary-color: #0073ea;    /* צבע ראשי */
+  --secondary-text-color: #676879;  /* טקסט משני */
   /* ... */
 }
 ```
@@ -261,7 +242,6 @@ npm run deploy
 - **React** - ספריית JavaScript לבניית ממשקי משתמש
 - **React Router** - ניווט client-side
 - **CSS Modules** - סגנונות מקומיים לרכיבים
-- **react-syntax-highlighter** - הדגשת תחביר לקוד
 - **clsx** - ניהול classes דינמי
 - **gh-pages** - פריסה ל-GitHub Pages
 
