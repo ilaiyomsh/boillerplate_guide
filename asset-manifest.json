@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Repo_URL/static/css/main.6c9e7371.css",
-    "main.js": "/Repo_URL/static/js/main.f126e64e.js",
-    "static/js/453.a6b229d1.chunk.js": "/Repo_URL/static/js/453.a6b229d1.chunk.js",
-    "index.html": "/Repo_URL/index.html",
-    "main.6c9e7371.css.map": "/Repo_URL/static/css/main.6c9e7371.css.map",
-    "main.f126e64e.js.map": "/Repo_URL/static/js/main.f126e64e.js.map",
-    "453.a6b229d1.chunk.js.map": "/Repo_URL/static/js/453.a6b229d1.chunk.js.map"
+    "main.css": "/boillerplate_guide/static/css/main.6c9e7371.css",
+    "main.js": "/boillerplate_guide/static/js/main.3b2bf2cb.js",
+    "static/js/453.a6b229d1.chunk.js": "/boillerplate_guide/static/js/453.a6b229d1.chunk.js",
+    "index.html": "/boillerplate_guide/index.html",
+    "main.6c9e7371.css.map": "/boillerplate_guide/static/css/main.6c9e7371.css.map",
+    "main.3b2bf2cb.js.map": "/boillerplate_guide/static/js/main.3b2bf2cb.js.map",
+    "453.a6b229d1.chunk.js.map": "/boillerplate_guide/static/js/453.a6b229d1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6c9e7371.css",
-    "static/js/main.f126e64e.js"
+    "static/js/main.3b2bf2cb.js"
   ]
 }
