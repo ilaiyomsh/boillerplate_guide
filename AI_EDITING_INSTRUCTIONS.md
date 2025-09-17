@@ -31,6 +31,7 @@
 - כותרת סעיף, פסקאות, כותרות משנה, רשימות, קישורים ובלוקים של הערות (`blockquote`).
 - תמונות: משיכה מרשימת התמונות בסעיף והחלה באמצעות `ImageFigure` (מקור הקובץ ב-`public/images/`).
 - אין להשתמש בדוגמאות קוד (CodeExample הוסר מהפרויקט).
+- **חובה:** להוסיף import של ImageFigure בכל סעיף שמכיל תמונות.
 
 ### 4) יצירה/מחיקה אוטומטית לפי קובץ התוכן
 - עבור כל `[CHAPTER N]` שנמצא — אם `src/pages/ChapterN/` לא קיימת, ליצור.
@@ -46,6 +47,81 @@
 ### 6) תמונות וקבצים נלווים
 - תמונות: למקם תחת `public/images/`, להשתמש בנתיב `/images/<file>`.
 - קבצים נלווים (אם יש): `public/assets/`.
+
+## הנחיות מפורטות לטיפול בתמונות
+
+### זרימת עבודה עם תמונות
+1. **היוצר מעלה תמונות** לתיקיית `public/images/` (או תת־תיקיות כמו `public/images/chapter1/`).
+2. **היוצר מציין למיקום** איפה כל תמונה צריכה להופיע בתוכן.
+3. **הסוכן AI מטפל בקוד** - מוסיף import ושימוש ב-ImageFigure.
+
+### שימוש ב-ImageFigure
+```jsx
+// הוסף בראש הקובץ:
+import ImageFigure from '../../components/InteractiveDemo/ImageFigure';
+
+// הוסף במקום הרצוי:
+<ImageFigure 
+  imageName="chapter1/example.jpg"    // שם הקובץ ב-public/images/
+  alt="תיאור התמונה"                  // תיאור נגישות
+  caption="כיתוב התמונה"               // כיתוב אופציונלי
+  aspectRatio="16 / 9"                // יחס רצוי (אופציונלי)
+  objectFit="contain"                 // contain/cover (ברירת מחדל: contain)
+  width="600px"                       // רוחב מקסימלי (אופציונלי)
+/>
+```
+
+### פרמטרים חשובים
+- **imageName**: שם הקובץ יחסית ל-`public/images/` (חובה)
+- **alt**: תיאור התמונה לנגישות (חובה)
+- **caption**: כיתוב שמוצג מתחת לתמונה (אופציונלי)
+- **aspectRatio**: יחס גובה-רוחב רצוי כמו "16 / 9", "4 / 3", "1 / 1" (אופציונלי)
+- **objectFit**: 
+  - "contain" - מציג את כל התמונה, עלול ליצור פסים (ברירת מחדל)
+  - "cover" - ממלא את השטח, עלול לחתוך חלקים מהתמונה
+- **width**: רוחב מקסימלי לתמונה (אופציונלי)
+
+### דוגמאות שימוש נפוצות
+
+#### תמונת תוכן רגילה
+```jsx
+<ImageFigure 
+  imageName="chapter2/diagram.png" 
+  alt="דיאגרמת התהליך" 
+  caption="תרשים המציג את שלבי התהליך"
+/>
+```
+
+#### תמונה בפורמט כרטיס (אחיד)
+```jsx
+<ImageFigure 
+  imageName="chapter3/screenshot.jpg" 
+  alt="צילום מסך של הממשק" 
+  caption="כך נראה הממשק הסופי"
+  aspectRatio="4 / 3"
+  objectFit="cover"
+/>
+```
+
+#### תמונה קטנה/אייקון
+```jsx
+<ImageFigure 
+  imageName="icons/warning.svg" 
+  alt="סמל אזהרה" 
+  width="100px"
+  aspectRatio="1 / 1"
+/>
+```
+
+### ארגון קבצי תמונות
+- מומלץ לארגן בתת־תיקיות לפי פרק: `public/images/chapter1/`, `public/images/chapter2/`
+- קבצי SVG לאייקונים: `public/images/icons/`
+- תמונות כלליות: `public/images/general/`
+
+### שמות קבצים מומלצים
+- השתמש באנגלית בלבד
+- ללא רווחים (השתמש ב-dash או underscore)
+- תיאור ברור: `user-interface.png`, `process-diagram.svg`, `chapter1-hero.jpg`
 
 ### 7) בדיקות אחרי עריכה
 1. `npm run build` — הפרויקט נבנה ללא שגיאות.

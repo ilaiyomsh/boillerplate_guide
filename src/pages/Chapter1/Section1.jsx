@@ -1,5 +1,6 @@
 import React from 'react';
 import GuideSection from '../../components/GuideSection/GuideSection';
+import ImageFigure from '../../components/InteractiveDemo/ImageFigure';
 
 const Section1 = () => {
   return (
@@ -30,6 +31,15 @@ const Section1 = () => {
       <p>
         כאן ניתן לשלב תמונה או תרשים שממחישים את הרעיון המרכזי של הסעיף.
       </p>
+
+      {/* דוגמה לשימוש בתמונה - החלף את example.jpg בשם הקובץ בפועל */}
+      {/* <ImageFigure 
+        imageName="chapter1/example.jpg" 
+        alt="תיאור התמונה" 
+        caption="כיתוב התמונה"
+        aspectRatio="16 / 9"
+        objectFit="contain"
+      /> */}
 
       <blockquote>
         <strong>שימו לב:</strong> זוהי דוגמה בסיסית. בסעיפים הבאים נרחיב ונעמיק יותר.

@@ -1,0 +1,31 @@
+.wrapper {
+  display: grid;
+  gap: 1rem;
+}
+
+.uploader {
+  display: inline-grid;
+  align-items: center;
+  justify-content: start;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  background: #fafafa;
+}
+
+.input {
+  display: none;
+}
+
+.error {
+  color: #b00020;
+}
+
+.preview {
+  width: 100%;
+}
+
+

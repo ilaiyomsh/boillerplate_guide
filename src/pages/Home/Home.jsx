@@ -67,6 +67,8 @@ const Home = () => {
           </div>
         </div>
 
+        
+
         <div className={styles.startButton}>
           <Link to="/chapter1" className={styles.ctaButton}>
             התחילו עכשיו! →

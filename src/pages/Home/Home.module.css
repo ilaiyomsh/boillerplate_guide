@@ -146,6 +146,8 @@
   margin-top: 2rem;
 }
 
+/* הוסר דמו ההעלאה */
+
 .ctaButton {
   background: var(--primary-color);
   color: var(--text-color-on-primary);

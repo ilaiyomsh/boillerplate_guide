@@ -1,5 +1,6 @@
 import React from 'react';
 import GuideSection from '../../components/GuideSection/GuideSection';
+import ImageFigure from '../../components/InteractiveDemo/ImageFigure';
 
 const Section1 = () => {
   return (
